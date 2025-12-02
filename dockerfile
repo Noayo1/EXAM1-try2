@@ -1,7 +1,5 @@
 FROM python:3.9
 
-ENV PYTHONUNBUFFERED=1
-
 WORKDIR /app
 
 RUN apt-get update && apt-get install -y \
@@ -23,4 +21,5 @@ COPY catalog_files/tmp/catalog.tar.bz2 /app/catalog_files/tmp/catalog.tar.bz2
 
 COPY entrypoint.sh /app/
 RUN chmod +x /app/entrypoint.sh
+
 ENTRYPOINT ["./entrypoint.sh"]
