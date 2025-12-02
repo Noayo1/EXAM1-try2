@@ -1,4 +1,6 @@
-FROM python:3.9 AS builder
+FROM python:3.9
+
+ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
@@ -9,14 +11,16 @@ RUN apt-get update && apt-get install -y \
     rsync \
     && rm -rf /var/lib/apt/lists/*
 
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+COPY requirements.txt /app/
+RUN pip install -r requirements.txt
 
-COPY . .
+COPY manage.py /app/
+COPY gutendex /app/gutendex/
+COPY books /app/books/
+COPY static /app/static/
+COPY catalog_files/tmp/catalog.tar.bz2 /app/catalog_files/tmp/catalog.tar.bz2
 
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
 
-EXPOSE 8000
-
-CMD ["/entrypoint.sh"]
+COPY entrypoint.sh /app/
+RUN chmod +x /app/entrypoint.sh
+ENTRYPOINT ["./entrypoint.sh"]
