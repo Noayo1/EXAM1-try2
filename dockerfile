@@ -12,14 +12,13 @@ RUN apt-get update && apt-get install -y \
 COPY requirements.txt /app/
 RUN pip install -r requirements.txt
 
-COPY manage.py /app/
-COPY gutendex /app/gutendex/
-COPY books /app/books/
-COPY static /app/static/
-COPY catalog_files/tmp/catalog.tar.bz2 /app/catalog_files/tmp/catalog.tar.bz2
+COPY manage.py .
+COPY gutendex/ ./gutendex/
+COPY books/ ./books/
+COPY static/ ./static/
+COPY catalog_files/tmp/catalog.tar.bz2 ./catalog_files/tmp/catalog.tar.bz2
 
-
-COPY entrypoint.sh /app/
-RUN chmod +x /app/entrypoint.sh
+COPY entrypoint.sh .
+RUN chmod +x entrypoint.sh
 
 ENTRYPOINT ["./entrypoint.sh"]
